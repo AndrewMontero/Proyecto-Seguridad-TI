@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-$this->call(ParcelsTableSeeder::class);
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+// ✅ Importar los seeders
+use Database\Seeders\ParcelsTableSeeder;
+use Database\Seeders\ProductosTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,8 +19,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // ✅ Ejecutar seeders
+        $this->call([
+            ParcelsTableSeeder::class,
+            ProductosSeeder::class,
+        ]);
 
+        // ✅ Crear un usuario de prueba
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

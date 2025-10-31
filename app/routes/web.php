@@ -26,6 +26,41 @@ Route::resource('parcels', ParcelController::class);
 
 /*
 |--------------------------------------------------------------------------
+| RUTAS DE AUTENTICACIÓN
+|--------------------------------------------------------------------------
+*/
+
+// Mostrar formulario de login
+Route::get('/login', function () {
+    return view('demo.login');
+})->name('login');
+
+// Procesar login
+Route::post('/login', function (Request $r) {
+    $credentials = $r->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $r->session()->regenerate();
+        return redirect()->intended('/dashboard');
+    }
+
+    return back()->withErrors([
+        'email' => 'Las credenciales no coinciden con nuestros registros.',
+    ])->withInput();
+})->name('login.post');
+
+// Logout
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/')->with('success', 'Sesión cerrada correctamente');
+})->name('logout');
+
+
+
+/*
+|--------------------------------------------------------------------------
 | VULNERABILIDAD A — SECURITY MISCONFIGURATION
 | Exposición del archivo .env si APP_DEBUG=true
 |--------------------------------------------------------------------------
@@ -90,7 +125,7 @@ Route::post('/demo-login', function (Request $r) {
     $user = \App\Models\User::where('email', $email)->first();
     if ($user && $password === 'admin123') {
         Auth::login($user);
-        return redirect('/')->with('success', 'Logged in (demo vulnerable).');
+        return redirect('/dashboard')->with('success', 'Logged in (demo vulnerable).');
     }
 
     return back()->with('error', 'Invalid demo credentials');
@@ -135,3 +170,31 @@ Route::match(['get', 'post'], '/demo-reset', function (Request $r) {
 
     return response("Token valid for $email — demo reset allowed", 200)->header('Content-Type', 'text/plain');
 });
+
+
+
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD Y AUTENTICACIÓN
+|--------------------------------------------------------------------------
+*/
+
+// Dashboard (requiere autenticación)
+Route::get('/dashboard', function () {
+    $totalParcelas = \App\Models\Parcel::count();
+    $totalProductos = \App\Models\Producto::count();
+    $lecturasHoy = 5; // Simulado
+    $alertas = 2; // Simulado
+
+    $ultimasParcelas = \App\Models\Parcel::latest()->take(3)->get();
+    $ultimasLecturas = []; // Por ahora vacío
+
+    return view('dashboard', compact(
+        'totalParcelas',
+        'totalProductos',
+        'lecturasHoy',
+        'alertas',
+        'ultimasParcelas',
+        'ultimasLecturas'
+    ));
+})->middleware('auth')->name('dashboard');
