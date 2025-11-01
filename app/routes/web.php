@@ -49,6 +49,29 @@ Route::post('/login', function (Request $r) {
     ])->withInput();
 })->name('login.post');
 
+// Mostrar formulario de registro
+Route::get('/register', function () {
+    return view('demo.register');
+})->name('register');
+
+// Procesar registro
+Route::post('/register', function (Request $r) {
+    $validated = $r->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    $user = \App\Models\User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => bcrypt($validated['password']),
+    ]);
+
+    Auth::login($user);
+    return redirect('/dashboard')->with('success', 'Registro exitoso');
+})->name('register.post');
+
 // Logout
 Route::post('/logout', function () {
     Auth::logout();
