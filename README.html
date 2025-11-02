@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%8C%BE-agrosenso-lite">🌾 AgroSenso Lite</h1>
+<p>Sistema de gestión agrícola con demostración de vulnerabilidades OWASP Top 10 2021</p>
+<p><img src="https://img.shields.io/badge/Laravel-11-red?style=flat&amp;logo=laravel" alt="Laravel">
+<img src="https://img.shields.io/badge/PHP-8.2-blue?style=flat&amp;logo=php" alt="PHP">
+<img src="https://img.shields.io/badge/MySQL-8.0-orange?style=flat&amp;logo=mysql" alt="MySQL">
+<img src="https://img.shields.io/badge/OWASP-Top 10 2021-purple?style=flat" alt="OWASP"></p>
+<hr>
+<h2 id="tabla-de-contenidos">Tabla de Contenidos</h2>
+<ol>
+<li><a href="#-descripci%C3%B3n-del-proyecto">Descripción del Proyecto</a></li>
+<li><a href="#-requisitos-del-sistema">Requisitos del Sistema</a></li>
+<li><a href="#-instalaci%C3%B3n">Instalación</a></li>
+<li><a href="#-vulnerabilidades-implementadas">Vulnerabilidades Implementadas</a></li>
+<li><a href="#-estructura-del-proyecto">Estructura del Proyecto</a></li>
+<li><a href="#-uso-y-demostraci%C3%B3n">Uso y Demostración</a></li>
+<li><a href="#-cr%C3%A9ditos">Créditos</a></li>
+</ol>
+<hr>
+<h2 id="descripci%C3%B3n-del-proyecto">Descripción del Proyecto</h2>
+<p><strong>AgroSenso Lite</strong> es un sistema de gestión agrícola desarrollado en Laravel que permite:</p>
+<ul>
+<li>Dashboard con métricas agrícolas</li>
+<li>Gestión de parcelas (CRUD completo)</li>
+<li>Catálogo de productos agrícolas</li>
+<li>Registro de lecturas de sensores (simuladas)</li>
+<li>Sistema de autenticación</li>
+</ul>
+<p>Este proyecto fue creado con <strong>propósitos educativos</strong> para demostrar las <strong>6 vulnerabilidades más críticas</strong> del OWASP Top 10 2021 en una aplicación web real.</p>
+<hr>
+<h2 id="requisitos-del-sistema">Requisitos del Sistema</h2>
+<p>Antes de instalar, asegúrate de tener:</p>
+<ul>
+<li><strong>PHP</strong> &gt;= 8.2</li>
+<li><strong>Composer</strong> &gt;= 2.6</li>
+<li><strong>MySQL</strong> &gt;= 8.0</li>
+<li><strong>Node.js</strong> &gt;= 18 (opcional, para assets)</li>
+<li><strong>Git</strong></li>
+</ul>
+<h3 id="verificar-instalaciones">Verificar instalaciones:</h3>
+<pre class="hljs"><code><div>php --version
+composer --version
+mysql --version
+</div></code></pre>
+<hr>
+<h2 id="instalaci%C3%B3n">Instalación</h2>
+<h3 id="1%EF%B8%8F%E2%83%A3-clonar-el-repositorio">1️⃣ Clonar el repositorio</h3>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/AndrewMontero/Proyecto-Seguridad-TI.git
+<span class="hljs-built_in">cd</span> Proyecto-Seguridad-TI
+</div></code></pre>
+<h3 id="2%EF%B8%8F%E2%83%A3-instalar-dependencias-de-php">2️⃣ Instalar dependencias de PHP</h3>
+<pre class="hljs"><code><div>composer install
+</div></code></pre>
+<h3 id="3%EF%B8%8F%E2%83%A3-configurar-variables-de-entorno">3️⃣ Configurar variables de entorno</h3>
+<p>Copia el archivo <code>.env.example</code> y renómbralo a <code>.env</code>:</p>
+<pre class="hljs"><code><div>cp .env.example .env
+</div></code></pre>
+<p>O en Windows:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">copy</span> .env.example .env
+</div></code></pre>
+<p>Edita el archivo <code>.env</code> con tus credenciales:</p>
+<pre class="hljs"><code><div><span class="hljs-attr">APP_NAME</span>=<span class="hljs-string">AgroSenso</span>
+<span class="hljs-attr">APP_ENV</span>=<span class="hljs-string">local</span>
+<span class="hljs-attr">APP_DEBUG</span>=<span class="hljs-string">true</span>
+<span class="hljs-attr">APP_URL</span>=<span class="hljs-string">http://localhost</span>
+
+<span class="hljs-attr">DB_CONNECTION</span>=<span class="hljs-string">mysql</span>
+<span class="hljs-attr">DB_HOST</span>=<span class="hljs-string">127.0.0.1</span>
+<span class="hljs-attr">DB_PORT</span>=<span class="hljs-string">3306</span>
+<span class="hljs-attr">DB_DATABASE</span>=<span class="hljs-string">agrosenso_db</span>
+<span class="hljs-attr">DB_USERNAME</span>=<span class="hljs-string">root</span>
+<span class="hljs-attr">DB_PASSWORD</span>=<span class="hljs-string">tu_password</span>
+</div></code></pre>
+<h3 id="4%EF%B8%8F%E2%83%A3-generar-clave-de-aplicaci%C3%B3n">4️⃣ Generar clave de aplicación</h3>
+<pre class="hljs"><code><div>php artisan key:generate
+</div></code></pre>
+<h3 id="5%EF%B8%8F%E2%83%A3-crear-base-de-datos">5️⃣ Crear base de datos</h3>
+<p>Accede a MySQL:</p>
+<pre class="hljs"><code><div>mysql -u root -p
+</div></code></pre>
+<p>Ejecuta:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> agrosenso_db <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8mb4 <span class="hljs-keyword">COLLATE</span> utf8mb4_unicode_ci;
+EXIT;
+</div></code></pre>
+<h3 id="6%EF%B8%8F%E2%83%A3-ejecutar-migraciones">6️⃣ Ejecutar migraciones</h3>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<h3 id="7%EF%B8%8F%E2%83%A3-poblar-base-de-datos-con-datos-de-prueba">7️⃣ Poblar base de datos con datos de prueba</h3>
+<pre class="hljs"><code><div>php artisan db:seed --class=DemoSeeder
+</div></code></pre>
+<p>Esto creará:</p>
+<ul>
+<li>✅ 3 usuarios de prueba</li>
+<li>✅ 6 parcelas</li>
+<li>✅ 6 productos</li>
+</ul>
+<h3 id="8%EF%B8%8F%E2%83%A3-iniciar-servidor-de-desarrollo">8️⃣ Iniciar servidor de desarrollo</h3>
+<pre class="hljs"><code><div>php artisan serve
+</div></code></pre>
+<p>Accede a: <strong>http://127.0.0.1:8000</strong></p>
+<hr>
+<h2 id="credenciales-de-acceso">Credenciales de Acceso</h2>
+<h3 id="usuarios-de-prueba">Usuarios de prueba:</h3>
+<table>
+<thead>
+<tr>
+<th>Email</th>
+<th>Password</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>josue@gmail.com</td>
+<td>admin123</td>
+<td>Usuario</td>
+</tr>
+<tr>
+<td>maria@gmail.com</td>
+<td>admin123</td>
+<td>Usuario</td>
+</tr>
+<tr>
+<td>carlos@gmail.com</td>
+<td>admin123</td>
+<td>Usuario</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="vulnerabilidades-implementadas">Vulnerabilidades Implementadas</h2>
+<p>Este proyecto incluye <strong>6 vulnerabilidades críticas</strong> del OWASP Top 10 2021:</p>
+<hr>
+<h3 id="1-sql-injection-sqli---a032021">1.  <strong>SQL Injection (SQLi)</strong> - A03:2021</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ProductoController.php</code> - Línea 15</p>
+<p><strong>Descripción:</strong><br>
+La búsqueda de productos concatena directamente la entrada del usuario en la consulta SQL sin usar parámetros preparados.</p>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div>$busqueda = $request-&gt;input(<span class="hljs-string">'buscar'</span>, <span class="hljs-string">''</span>);
+$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE '%$busqueda%'"</span>);
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>⚠️ Acceso no autorizado a toda la base de datos</li>
+<li>⚠️ Extracción de información sensible</li>
+<li>⚠️ Modificación o eliminación de datos</li>
+<li>⚠️ En casos extremos: compromiso total del servidor</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<ol>
+<li>Ve a <code>/productos</code></li>
+<li>En el campo de búsqueda, ingresa: <code>' OR '1'='1</code></li>
+<li>Resultado: Muestra todos los productos sin filtro</li>
+</ol>
+<p><strong>Payload de prueba:</strong></p>
+<pre class="hljs"><code><div>' OR '1'='1
+' UNION <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span><span class="hljs-comment">--</span>
+<span class="hljs-string">'; DROP TABLE productos; --
+</span></div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Usar parámetros preparados</span>
+$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE ?"</span>, [<span class="hljs-string">"%$busqueda%"</span>]);
+<span class="hljs-comment">// O mejor aún, usar Eloquent:</span>
+$productos = Producto::where(<span class="hljs-string">'nombre'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$busqueda%"</span>)-&gt;get();
+</div></code></pre>
+<hr>
+<h3 id="2-cross-site-scripting-xss---a032021">2.  <strong>Cross-Site Scripting (XSS)</strong> - A03:2021</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ProductoController.php</code> - Línea 28</p>
+<p><strong>Descripción:</strong><br>
+Los datos ingresados no se validan ni sanitizan antes de almacenarse, y se renderizan sin escapar en las vistas.</p>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div>DB::insert(<span class="hljs-string">"INSERT INTO productos (nombre, descripcion, precio, created_at, updated_at) 
+            VALUES (?, ?, ?, NOW(), NOW())"</span>,
+            [$request-&gt;nombre, $request-&gt;descripcion, $request-&gt;precio]
+);
+</div></code></pre>
+<p>Vista vulnerable en <code>resources/views/productos/index.blade.php</code>:</p>
+<pre class="hljs"><code><div>{!! $producto-&gt;descripcion !!}  &lt;!--  NO escapa HTML --&gt;
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Robo de cookies y sesiones</li>
+<li>Redireccionamiento a sitios maliciosos</li>
+<li>Modificación del contenido de la página</li>
+<li>Captura de credenciales (keylogging)</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<ol>
+<li>Ve a <code>/productos/crear</code></li>
+<li>En el campo <strong>Descripción</strong>, ingresa:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">alert(<span class="hljs-string">'XSS Vulnerable!'</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<ol start="3">
+<li>Guarda el producto</li>
+<li>Al ver la lista de productos, el script se ejecuta</li>
+</ol>
+<p><strong>Payloads de prueba:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">alert(<span class="hljs-built_in">document</span>.cookie)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">x</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">"alert('XSS')"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">"alert('XSS')"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"javascript:alert('XSS')"</span>&gt;</span>
+</div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// En la vista, usar {{ }} en lugar de {!! !!}</span>
+{{ $producto-&gt;descripcion }}  &lt;!-- ✅ Escapa automáticamente --&gt;
+</div></code></pre>
+<hr>
+<h3 id="3-broken-access-control-idor---a012021">3.  <strong>Broken Access Control (IDOR)</strong> - A01:2021</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ParcelController.php</code> - Líneas 26 y 39</p>
+<p><strong>Descripción:</strong><br>
+Los métodos <code>edit()</code> y <code>update()</code> NO verifican que el usuario sea el propietario de la parcela antes de permitir acceso.</p>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    <span class="hljs-comment">//  VULNERABLE: NO verifica ownership</span>
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    <span class="hljs-comment">//  VULNERABLE: NO hay verificación de propietario ni autorización</span>
+    $parcel-&gt;name = $request-&gt;input(<span class="hljs-string">'name'</span>);
+    <span class="hljs-comment">// ... actualiza sin verificar</span>
+}
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Un usuario puede editar parcelas de otros usuarios</li>
+<li>Acceso no autorizado a información privada</li>
+<li>Modificación o eliminación de datos ajenos</li>
+<li>Violación de la privacidad</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<ol>
+<li>Inicia sesión como <code>josue@gmail.com</code></li>
+<li>Crea o identifica una parcela (ej: ID=1)</li>
+<li>Cierra sesión e inicia con <code>maria@gmail.com</code></li>
+<li>Cambia la URL manualmente a: <code>/parcels/1/edit</code></li>
+<li>¡Puedes editar la parcela de Josue sin ser el dueño!</li>
+</ol>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    
+    <span class="hljs-comment">//  Verificar propiedad</span>
+    <span class="hljs-keyword">if</span> ($parcel-&gt;user_id !== Auth::id()) {
+        abort(<span class="hljs-number">403</span>, <span class="hljs-string">'No autorizado'</span>);
+    }
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
+}
+</div></code></pre>
+<hr>
+<h3 id="4-broken-authentication---a072021">4.  <strong>Broken Authentication</strong> - A07:2021</h3>
+<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 158-170</p>
+<p><strong>Descripción:</strong><br>
+El sistema de autenticación permite:</p>
+<ul>
+<li>✗ Contraseñas débiles sin requisitos de complejidad</li>
+<li>✗ Tokens de reset predecibles</li>
+<li>✗ Sin límite de intentos de login (fuerza bruta)</li>
+<li>✗ Mensajes que revelan si un usuario existe</li>
+</ul>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div>Route::post(<span class="hljs-string">'/demo-login'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $r)</span> </span>{
+    $email = $r-&gt;post(<span class="hljs-string">'email'</span>);
+    $password = $r-&gt;post(<span class="hljs-string">'password'</span>);
+
+    $user = \App\Models\User::where(<span class="hljs-string">'email'</span>, $email)-&gt;first();
+    
+    <span class="hljs-comment">//  Acepta contraseña débil "admin123" para cualquier usuario</span>
+    <span class="hljs-keyword">if</span> ($user &amp;&amp; $password === <span class="hljs-string">'admin123'</span>) {
+        Auth::login($user);
+        <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">'/dashboard'</span>);
+    }
+
+    <span class="hljs-keyword">return</span> back()-&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Invalid demo credentials'</span>);
+});
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Ataques de fuerza bruta sin restricción</li>
+<li>Enumeración de usuarios válidos</li>
+<li>Adivinación de tokens de reset</li>
+<li>Cuentas vulnerables a takeover</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<p><strong>Ataque 1: Contraseña débil universal</strong></p>
+<ul>
+<li>Cualquier usuario puede acceder con <code>admin123</code></li>
+<li>No hay requisitos de complejidad de contraseña</li>
+</ul>
+<p><strong>Ataque 2: Token predecible</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// El token se genera como: md5(email + floor(time() / 600))</span>
+<span class="hljs-comment">// Ruta: /demo-reset-request</span>
+POST email=test@test.com
+<span class="hljs-comment">// Resultado: Token predecible que puede ser adivinado</span>
+</div></code></pre>
+<p><strong>Ataque 3: Fuerza bruta sin límite</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Intentos ilimitados sin bloqueo</span>
+curl -X POST http://127.0.0.1:8000/demo-login -d <span class="hljs-string">"email=josue@gmail.com&amp;password=test1"</span>
+curl -X POST http://127.0.0.1:8000/demo-login -d <span class="hljs-string">"email=josue@gmail.com&amp;password=test2"</span>
+<span class="hljs-comment"># ... sin límite de intentos</span>
+</div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 1. Validar complejidad de contraseña</span>
+<span class="hljs-string">'password'</span> =&gt; <span class="hljs-string">'required|min:8|regex:/[A-Z]/|regex:/[0-9]/'</span>
+
+<span class="hljs-comment">// 2. Usar Hash::make() para contraseñas</span>
+Hash::make($password)
+
+<span class="hljs-comment">// 3. Rate limiting</span>
+RateLimiter::hit(<span class="hljs-string">'login:'</span> . $request-&gt;ip(), <span class="hljs-number">60</span>);
+
+<span class="hljs-comment">// 4. Mensajes genéricos</span>
+<span class="hljs-keyword">return</span> back()-&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Credenciales incorrectas'</span>);
+</div></code></pre>
+<hr>
+<h3 id="5-server-side-request-forgery-ssrf---a102021">5.  <strong>Server-Side Request Forgery (SSRF)</strong> - A10:2021</h3>
+<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 130-145</p>
+<p><strong>Descripción:</strong><br>
+Endpoint <code>/fetch?url=</code> que permite hacer peticiones HTTP a cualquier URL sin validación.</p>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/fetch'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $r)</span> </span>{
+    $url = $r-&gt;query(<span class="hljs-string">'url'</span>, <span class="hljs-string">''</span>);
+    
+    <span class="hljs-comment">//  VULNERABLE: sin validación ni lista blanca</span>
+    $content = @file_get_contents($url, <span class="hljs-keyword">false</span>, $context);
+    <span class="hljs-keyword">return</span> response($content, <span class="hljs-number">200</span>);
+});
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Escaneo de red interna</li>
+<li>Acceso a servicios internos (AWS metadata, Redis, etc.)</li>
+<li>Bypass de firewalls</li>
+<li>Robo de información sensible</li>
+<li>Lectura de archivos locales del servidor</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<p><strong>Ataque 1: Leer archivos locales</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=file:///etc/passwd
+</div></code></pre>
+<p><strong>Ataque 2: AWS Metadata (en servidores cloud)</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://169.254.169.254/latest/meta-data/
+</div></code></pre>
+<p><strong>Ataque 3: Escaneo de red interna</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://192.168.1.1:8080
+http://127.0.0.1:8000/fetch?url=http://localhost:3306
+</div></code></pre>
+<p><strong>Ataque 4: Acceder a servicios internos</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://localhost:6379  # Redis
+http://127.0.0.1:8000/fetch?url=http://localhost:9200  # Elasticsearch
+</div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Whitelist de dominios permitidos</span>
+$allowed_domains = [<span class="hljs-string">'api.example.com'</span>, <span class="hljs-string">'cdn.example.com'</span>];
+$host = parse_url($url, PHP_URL_HOST);
+
+<span class="hljs-keyword">if</span> (!in_array($host, $allowed_domains)) {
+    abort(<span class="hljs-number">403</span>, <span class="hljs-string">'Domain not allowed'</span>);
+}
+
+<span class="hljs-comment">// Validar protocolo</span>
+$scheme = parse_url($url, PHP_URL_SCHEME);
+<span class="hljs-keyword">if</span> (!in_array($scheme, [<span class="hljs-string">'http'</span>, <span class="hljs-string">'https'</span>])) {
+    abort(<span class="hljs-number">403</span>, <span class="hljs-string">'Invalid protocol'</span>);
+}
+</div></code></pre>
+<hr>
+<h3 id="6-security-logging-and-monitoring-failures---a092021-nueva">6.  <strong>Security Logging and Monitoring Failures</strong> - A09:2021  NUEVA</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ParcelController.php</code> - Líneas 40, 60, 72</p>
+<p><strong>Descripción:</strong><br>
+El sistema NO registra eventos críticos de seguridad:</p>
+<ul>
+<li>✗ No registra quién accede a qué parcelas</li>
+<li>✗ No registra modificaciones (valores anteriores vs nuevos)</li>
+<li>✗ No registra eliminaciones de datos</li>
+<li>✗ No hay timestamps ni IP del usuario</li>
+<li>✗ Sin alertas de actividad sospechosa</li>
+</ul>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    
+    <span class="hljs-comment">// Actualiza sin registrar quién, qué, cuándo</span>
+    $parcel-&gt;name = $request-&gt;input(<span class="hljs-string">'name'</span>);
+    $parcel-&gt;save();
+    
+    <span class="hljs-comment">//  VULNERABLE: NO hay log de auditoría</span>
+    <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'parcels.index'</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">($id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    $parcel-&gt;delete();
+    
+    <span class="hljs-comment">//  VULNERABLE: Eliminación sin rastro</span>
+    <span class="hljs-comment">// No hay forma de saber quién lo eliminó ni recuperar los datos</span>
+    <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'parcels.index'</span>);
+}
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Atacantes actúan sin ser detectados</li>
+<li>Imposible rastrear cambios maliciosos</li>
+<li>No se pueden recuperar datos eliminados</li>
+<li>Sin evidencia para investigaciones forenses</li>
+<li>Incumplimiento de regulaciones (GDPR, SOC2)</li>
+<li>Brechas de seguridad se descubren tarde</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<p><strong>Escenario de ataque:</strong></p>
+<ol>
+<li>Login como <code>josue@gmail.com</code> → password: <code>admin123</code></li>
+<li>Crear parcela &quot;Parcela Importante&quot;</li>
+<li>Anotar el ID (ejemplo: ID=5)</li>
+<li>Logout</li>
+<li>Login como <code>maria@gmail.com</code> → password: <code>admin123</code></li>
+<li>Ir a <code>/parcels/5/edit</code> (IDOR - A01)</li>
+<li>Cambiar nombre a &quot;Parcela Hackeada&quot; o eliminarla</li>
+<li><strong>Resultado:</strong> ✗ No hay registro de quién lo hizo, cuándo, ni valores anteriores</li>
+</ol>
+<p><strong>Verificar falta de logs:</strong></p>
+<pre class="hljs"><code><div>php artisan tinker
+</div></code></pre>
+<pre class="hljs"><code><div>&gt;&gt;&gt; DB::getSchemaBuilder()-&gt;getTables();
+<span class="hljs-comment">// No existe tabla "audit_logs" o "activity_log"</span>
+
+&gt;&gt;&gt; Parcel::withTrashed()-&gt;find(<span class="hljs-number">5</span>);
+<span class="hljs-comment">// Si fue eliminada: null</span>
+<span class="hljs-comment">// Sin soft deletes, el dato se pierde para siempre</span>
+
+&gt;&gt;&gt; <span class="hljs-comment">// No hay forma de saber:</span>
+<span class="hljs-comment">// - Quién eliminó la parcela</span>
+<span class="hljs-comment">// - Cuándo se eliminó</span>
+<span class="hljs-comment">// - Qué datos contenía</span>
+<span class="hljs-comment">// - Por qué se eliminó</span>
+</div></code></pre>
+<p><strong>Demostración visual:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Ver logs del sistema</span>
+tail -f storage/logs/laravel.log
+
+<span class="hljs-comment"># 2. Eliminar una parcela desde la interfaz</span>
+
+<span class="hljs-comment"># 3. Observar el log:</span>
+<span class="hljs-comment"># - NO aparece registro de eliminación</span>
+<span class="hljs-comment"># - NO hay user_id del actor</span>
+<span class="hljs-comment"># - NO hay IP address</span>
+<span class="hljs-comment"># - NO hay valores eliminados</span>
+</div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 1. Crear tabla de auditoría (migration)</span>
+Schema::create(<span class="hljs-string">'audit_logs'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+    $table-&gt;id();
+    $table-&gt;foreignId(<span class="hljs-string">'user_id'</span>)-&gt;constrained();
+    $table-&gt;string(<span class="hljs-string">'action'</span>); <span class="hljs-comment">// 'create', 'update', 'delete', 'view'</span>
+    $table-&gt;string(<span class="hljs-string">'model'</span>); <span class="hljs-comment">// 'Parcel', 'Producto', etc.</span>
+    $table-&gt;unsignedBigInteger(<span class="hljs-string">'model_id'</span>);
+    $table-&gt;json(<span class="hljs-string">'old_values'</span>)-&gt;nullable();
+    $table-&gt;json(<span class="hljs-string">'new_values'</span>)-&gt;nullable();
+    $table-&gt;ipAddress(<span class="hljs-string">'ip_address'</span>);
+    $table-&gt;string(<span class="hljs-string">'user_agent'</span>)-&gt;nullable();
+    $table-&gt;timestamps();
+});
+
+<span class="hljs-comment">// 2. Registrar cada acción importante</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    $oldValues = $parcel-&gt;toArray();
+    
+    $parcel-&gt;update($request-&gt;all());
+    
+    <span class="hljs-comment">// ✅ Registrar cambio</span>
+    AuditLog::create([
+        <span class="hljs-string">'user_id'</span> =&gt; auth()-&gt;id(),
+        <span class="hljs-string">'action'</span> =&gt; <span class="hljs-string">'update'</span>,
+        <span class="hljs-string">'model'</span> =&gt; <span class="hljs-string">'Parcel'</span>,
+        <span class="hljs-string">'model_id'</span> =&gt; $id,
+        <span class="hljs-string">'old_values'</span> =&gt; $oldValues,
+        <span class="hljs-string">'new_values'</span> =&gt; $parcel-&gt;fresh()-&gt;toArray(),
+        <span class="hljs-string">'ip_address'</span> =&gt; $request-&gt;ip(),
+        <span class="hljs-string">'user_agent'</span> =&gt; $request-&gt;userAgent(),
+    ]);
+    
+    Log::info(<span class="hljs-string">'Parcel updated'</span>, [
+        <span class="hljs-string">'user_id'</span> =&gt; auth()-&gt;id(),
+        <span class="hljs-string">'parcel_id'</span> =&gt; $id,
+        <span class="hljs-string">'ip'</span> =&gt; $request-&gt;ip(),
+        <span class="hljs-string">'changes'</span> =&gt; $parcel-&gt;getChanges(),
+    ]);
+}
+
+<span class="hljs-comment">// 3. Usar Soft Deletes para recuperación</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">SoftDeletes</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parcel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">SoftDeletes</span>; <span class="hljs-comment">// Permite recuperar datos "eliminados"</span>
+}
+
+<span class="hljs-comment">// 4. Monitorear actividad sospechosa</span>
+$suspiciousDeletes = AuditLog::where(<span class="hljs-string">'created_at'</span>, <span class="hljs-string">'&gt;'</span>, now()-&gt;subHour())
+    -&gt;where(<span class="hljs-string">'action'</span>, <span class="hljs-string">'delete'</span>)
+    -&gt;count();
+    
+<span class="hljs-keyword">if</span> ($suspiciousDeletes &gt; <span class="hljs-number">10</span>) {
+    <span class="hljs-comment">// Alertar administradores</span>
+    Mail::to(<span class="hljs-string">'admin@example.com'</span>)-&gt;send(<span class="hljs-keyword">new</span> SecurityAlert());
+}
+</div></code></pre>
+<hr>
+<h3 id="7-security-misconfiguration---a052021">7.  <strong>Security Misconfiguration</strong> - A05:2021</h3>
+<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 111-126 y archivo <code>.env</code></p>
+<p><strong>Descripción:</strong><br>
+Múltiples configuraciones inseguras:</p>
+<ul>
+<li>✗ <code>APP_DEBUG=true</code> en &quot;producción&quot;</li>
+<li>✗ Endpoint <code>/demo/leak-env</code> expone el archivo <code>.env</code></li>
+<li>✗ Stack traces detallados revelan estructura del sistema</li>
+<li>✗ Sin cabeceras de seguridad HTTP</li>
+</ul>
+<p><strong>Código vulnerable:</strong></p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/demo/leak-env'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $request)</span> </span>{
+    <span class="hljs-comment">//  Expone archivo .env si APP_DEBUG=true</span>
+    <span class="hljs-keyword">if</span> (config(<span class="hljs-string">'app.debug'</span>) !== <span class="hljs-keyword">true</span>) {
+        abort(<span class="hljs-number">404</span>);
+    }
+    
+    $envPath = base_path(<span class="hljs-string">'.env'</span>);
+    $content = file_get_contents($envPath);
+    <span class="hljs-keyword">return</span> response($content, <span class="hljs-number">200</span>);
+});
+</div></code></pre>
+<p><strong>Impacto:</strong></p>
+<ul>
+<li>Exposición de credenciales (DB, API keys)</li>
+<li>Revelación de estructura del sistema</li>
+<li>Información sobre versiones de software</li>
+<li>Facilita otros ataques</li>
+</ul>
+<p><strong>Cómo explotarlo:</strong></p>
+<p><strong>Ataque 1: Leer .env</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/demo/leak-env
+</div></code></pre>
+<p>Resultado: Expone credenciales de base de datos, API keys, etc.</p>
+<p><strong>Ataque 2: Forzar error para ver stack trace</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/parcels/999999999
+</div></code></pre>
+<p>Resultado: Stack trace completo con:</p>
+<ul>
+<li>Rutas absolutas del servidor</li>
+<li>Versiones de Laravel, PHP, MySQL</li>
+<li>Queries SQL ejecutadas</li>
+<li>Estructura de tablas</li>
+</ul>
+<p><strong>Ataque 3: Detectar tecnologías</strong></p>
+<pre class="hljs"><code><div>curl -I http://127.0.0.1:8000
+<span class="hljs-comment"># Headers revelan:</span>
+<span class="hljs-comment"># X-Powered-By: PHP/8.2</span>
+<span class="hljs-comment"># Server: Apache/2.4.52</span>
+</div></code></pre>
+<p><strong>Solución correcta:</strong></p>
+<pre class="hljs"><code><div># En producción
+APP_DEBUG=false
+APP_ENV=production
+
+# Eliminar endpoints de debug
+# - /demo/leak-env
+# - /phpinfo
+# - /debug
+
+# Agregar cabeceras de seguridad
+# En middleware:
+$response-&gt;headers-&gt;set('X-Frame-Options', 'SAMEORIGIN');
+$response-&gt;headers-&gt;set('X-Content-Type-Options', 'nosniff');
+$response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
+</div></code></pre>
+<hr>
+<h2 id="estructura-del-proyecto">Estructura del Proyecto</h2>
+<pre class="hljs"><code><div>Proyecto-Seguridad-TI/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── ParcelController.php      #  IDOR + A09 Logging Failure
+│   │       ├── ProductoController.php    #  SQLi + XSS vulnerable
+│   │       └── PruebaController.php
+│   └── Models/
+│       ├── Parcel.php
+│       ├── Producto.php
+│       └── User.php
+├── database/
+│   ├── migrations/
+│   │   ├── 2025_10_24_023752_create_parcels_table.php
+│   │   └── 2025_10_24_024343_create_productos_table.php
+│   └── seeders/
+│       └── DemoSeeder.php
+├── resources/
+│   └── views/
+│       ├── layouts/
+│       │   └── app.blade.php             # Layout principal
+│       ├── demo/
+│       │   ├── login.blade.php           #  Auth débil
+│       │   └── register.blade.php
+│       ├── parcels/
+│       │   ├── index.blade.php           # Con botón eliminar (A09)
+│       │   ├── create.blade.php
+│       │   ├── edit.blade.php            #  IDOR
+│       │   └── show.blade.php
+│       ├── productos/
+│       │   ├── index.blade.php           #  XSS
+│       │   └── create.blade.php
+│       └── dashboard.blade.php
+├── routes/
+│   └── web.php                           #  Todas las rutas vulnerables
+├── .env                                  #  Misconfig
+└── README.md
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%8E%AE-uso-y-demostraci%C3%B3n">🎮 Uso y Demostración</h2>
+<h3 id="rutas-principales">Rutas principales:</h3>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>Descripción</th>
+<th>Vulnerabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/login</code></td>
+<td>Página de login</td>
+<td>A07 - Auth débil</td>
+</tr>
+<tr>
+<td><code>/dashboard</code></td>
+<td>Dashboard principal</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>/parcels</code></td>
+<td>Listado de parcelas</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>/parcels/create</code></td>
+<td>Crear nueva parcela</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>/parcels/{id}/edit</code></td>
+<td>Editar parcela</td>
+<td>A01 - IDOR</td>
+</tr>
+<tr>
+<td><code>/parcels/{id}</code> (DELETE)</td>
+<td>Eliminar parcela</td>
+<td>A09 - No logs</td>
+</tr>
+<tr>
+<td><code>/productos</code></td>
+<td>Listado de productos</td>
+<td>A03 - SQLi</td>
+</tr>
+<tr>
+<td><code>/productos/crear</code></td>
+<td>Crear producto</td>
+<td>A03 - XSS</td>
+</tr>
+<tr>
+<td><code>/fetch?url=</code></td>
+<td>Endpoint SSRF</td>
+<td>A10 - SSRF</td>
+</tr>
+<tr>
+<td><code>/demo/leak-env</code></td>
+<td>Expone .env</td>
+<td>A05 - Misconfig</td>
+</tr>
+<tr>
+<td><code>/demo-login</code></td>
+<td>Login vulnerable</td>
+<td>A07 - Auth</td>
+</tr>
+<tr>
+<td><code>/demo-reset-request</code></td>
+<td>Reset token</td>
+<td>A07 - Token predecible</td>
+</tr>
+</tbody>
+</table>
+<h3 id="demostraci%C3%B3n-paso-a-paso">Demostración paso a paso:</h3>
+<h4 id="1-sql-injection-a03">1. SQL Injection (A03)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Accede a http://127.0.0.1:8000/productos</span>
+<span class="hljs-comment"># 2. En la búsqueda, ingresa: ' OR '1'='1</span>
+<span class="hljs-comment"># 3. Resultado: Muestra todos los productos sin filtro</span>
+<span class="hljs-comment"># 4. Prueba también: '; DROP TABLE productos; --</span>
+</div></code></pre>
+<h4 id="2-xss-a03">2. XSS (A03)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Accede a /productos/crear</span>
+<span class="hljs-comment"># 2. Nombre: Producto Test</span>
+<span class="hljs-comment"># 3. Descripción: &lt;script&gt;alert('XSS Vulnerable!')&lt;/script&gt;</span>
+<span class="hljs-comment"># 4. Precio: 100</span>
+<span class="hljs-comment"># 5. Guarda y ve la lista</span>
+<span class="hljs-comment"># 6. Resultado: El script se ejecuta mostrando la alerta</span>
+</div></code></pre>
+<h4 id="3-idor---broken-access-control-a01">3. IDOR - Broken Access Control (A01)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Login como josue@gmail.com / admin123</span>
+<span class="hljs-comment"># 2. Crear parcela "Mi Parcela Privada" (nota el ID, ej: 7)</span>
+<span class="hljs-comment"># 3. Logout</span>
+<span class="hljs-comment"># 4. Login como maria@gmail.com / admin123</span>
+<span class="hljs-comment"># 5. Accede manualmente a: /parcels/7/edit</span>
+<span class="hljs-comment"># 6. Resultado: Puedes ver y editar la parcela de Josue</span>
+</div></code></pre>
+<h4 id="4-broken-authentication-a07">4. Broken Authentication (A07)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Intenta login con cualquier email registrado</span>
+<span class="hljs-comment"># 2. Password: admin123</span>
+<span class="hljs-comment"># 3. Resultado: Acceso concedido sin validación real</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 4. Para token predecible:</span>
+<span class="hljs-comment"># POST /demo-reset-request</span>
+<span class="hljs-comment"># body: email=test@test.com</span>
+<span class="hljs-comment"># Resultado: Muestra token predecible basado en md5(email+time)</span>
+</div></code></pre>
+<h4 id="5-ssrf-a10">5. SSRF (A10)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Accede a: /fetch?url=http://example.com</span>
+<span class="hljs-comment"># 2. Prueba: /fetch?url=file:///etc/passwd</span>
+<span class="hljs-comment"># 3. Prueba: /fetch?url=http://localhost:3306</span>
+<span class="hljs-comment"># Resultado: Puede hacer requests a cualquier URL</span>
+</div></code></pre>
+<h4 id="6-security-logging-failure-a09">6. Security Logging Failure (A09)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. Login como josue@gmail.com / admin123</span>
+<span class="hljs-comment"># 2. Crear parcela "Parcela Importante"</span>
+<span class="hljs-comment"># 3. Logout, login como maria@gmail.com / admin123</span>
+<span class="hljs-comment"># 4. Ir a /parcels/X/edit (IDOR)</span>
+<span class="hljs-comment"># 5. Eliminar la parcela</span>
+<span class="hljs-comment"># 6. Verificar: php artisan tinker</span>
+<span class="hljs-comment">#    &gt;&gt;&gt; DB::table('parcels')-&gt;where('id', X)-&gt;first()</span>
+<span class="hljs-comment">#    &gt;&gt;&gt; // null - sin forma de recuperar</span>
+<span class="hljs-comment">#    &gt;&gt;&gt; // Sin logs de quién la eliminó</span>
+</div></code></pre>
+<h4 id="7-security-misconfiguration-a05">7. Security Misconfiguration (A05)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Con APP_DEBUG=true:</span>
+<span class="hljs-comment"># 1. Accede a: /demo/leak-env</span>
+<span class="hljs-comment"># Resultado: Muestra todo el contenido del archivo .env</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 2. Fuerza un error: /parcels/999999999</span>
+<span class="hljs-comment"># Resultado: Stack trace completo con rutas, queries, versiones</span>
+</div></code></pre>
+<hr>
+<h2 id="advertencias">Advertencias</h2>
+<ul>
+<li><strong>ESTE PROYECTO ES SOLO PARA FINES EDUCATIVOS</strong></li>
+<li><strong>NO USAR EN PRODUCCIÓN</strong></li>
+<li><strong>NO DESPLEGAR EN SERVIDORES PÚBLICOS</strong></li>
+<li>Las vulnerabilidades son intencionales para demostración académica</li>
+</ul>
+<hr>
+<h2 id="recursos-adicionales">Recursos Adicionales</h2>
+<ul>
+<li><a href="https://owasp.org/Top10/">OWASP Top 10 2021</a></li>
+<li><a href="https://laravel.com/docs/11.x/security">Laravel Security Best Practices</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html">PHP Security Cheat Sheet</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">SQL Injection Prevention</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">XSS Prevention</a></li>
+</ul>
+<hr>
+<h2 id="resumen-de-vulnerabilidades">Resumen de Vulnerabilidades</h2>
+<table>
+<thead>
+<tr>
+<th># OWASP</th>
+<th>Vulnerabilidad</th>
+<th>Implementada</th>
+<th>Ubicación</th>
+<th>Impacto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A01:2021</td>
+<td>Broken Access Control</td>
+<td>✅</td>
+<td>ParcelController.php</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>A03:2021</td>
+<td>Injection (SQLi + XSS)</td>
+<td>✅</td>
+<td>ProductoController.php</td>
+<td>Crítico</td>
+</tr>
+<tr>
+<td>A05:2021</td>
+<td>Security Misconfiguration</td>
+<td>✅</td>
+<td>.env + routes/web.php</td>
+<td>Medio</td>
+</tr>
+<tr>
+<td>A07:2021</td>
+<td>Authentication Failures</td>
+<td>✅</td>
+<td>routes/web.php</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>A09:2021</td>
+<td>Logging Failures</td>
+<td>✅</td>
+<td>ParcelController.php</td>
+<td>Medio</td>
+</tr>
+<tr>
+<td>A10:2021</td>
+<td>SSRF</td>
+<td>✅</td>
+<td>routes/web.php</td>
+<td>Alto</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: 6 vulnerabilidades críticas implementadas</strong></p>
+<hr>
+<h2 id="herramientas-de-testing">Herramientas de Testing</h2>
+<h3 id="para-probar-las-vulnerabilidades">Para probar las vulnerabilidades:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># SQL Injection</span>
+sqlmap -u <span class="hljs-string">"http://127.0.0.1:8000/productos?buscar=test"</span> --dbs
+
+<span class="hljs-comment"># SSRF</span>
+curl <span class="hljs-string">"http://127.0.0.1:8000/fetch?url=file:///etc/passwd"</span>
+
+<span class="hljs-comment"># XSS</span>
+<span class="hljs-comment"># Usar Burp Suite o ZAP Proxy</span>
+
+<span class="hljs-comment"># Auditoría de composer</span>
+composer audit
+
+<span class="hljs-comment"># Análisis de código estático</span>
+./vendor/bin/phpstan analyse app
+</div></code></pre>
+<hr>
+<h2 id="cr%C3%A9ditos">Créditos</h2>
+<p><strong>Proyecto:</strong> Seguridad en Tecnologías de la Información<br>
+<strong>Institución:</strong> Universidad Tecnica Nacional
+<strong>Año:</strong> 2025</p>
+<h3 id="autores">Autores:</h3>
+<ul>
+<li>Andrew Montero - <a href="https://github.com/AndrewMontero">@AndrewMontero</a></li>
+<li>Deivis Jimenez - [@DeivisJm]</li>
+</ul>
+<h3 id="agradecimientos">Agradecimientos:</h3>
+<ul>
+<li>OWASP Foundation por la documentación del Top 10</li>
+<li>Comunidad de Laravel por el framework</li>
+<li>Profesores y compañeros del curso de Seguridad TI</li>
+</ul>
+<hr>
+<h2 id="licencia">Licencia</h2>
+<p>Este proyecto es de uso educativo exclusivamente.</p>
+<p><strong>MIT License</strong> - Ver archivo <code>LICENSE</code> para más detalles.</p>
+<hr>
+<h2 id="contribuciones">Contribuciones</h2>
+<p>Las contribuciones educativas son bienvenidas. Por favor:</p>
+<ol>
+<li>Fork el proyecto</li>
+<li>Crea una rama (<code>git checkout -b feature/NuevaVulnerabilidad</code>)</li>
+<li>Commit tus cambios (<code>git commit -m 'Agrega nueva vulnerabilidad educativa'</code>)</li>
+<li>Push a la rama (<code>git push origin feature/NuevaVulnerabilidad</code>)</li>
+<li>Abre un Pull Request</li>
+</ol>
+<h3 id="directrices">Directrices:</h3>
+<ul>
+<li>Documenta claramente cada vulnerabilidad</li>
+<li>Incluye ejemplos de explotación</li>
+<li>Proporciona la solución correcta</li>
+<li>Añade referencias a OWASP</li>
+</ul>
+<hr>
+<h2 id="faq-preguntas-frecuentes">FAQ (Preguntas Frecuentes)</h2>
+<h3 id="%C2%BFes-seguro-ejecutar-este-proyecto">¿Es seguro ejecutar este proyecto?</h3>
+<p>Solo en entorno local para aprendizaje. <strong>NUNCA</strong> en producción o servidores públicos.</p>
+<h3 id="%C2%BFc%C3%B3mo-resuelvo-el-error-%22419-page-expired%22">¿Cómo resuelvo el error &quot;419 Page Expired&quot;?</h3>
+<pre class="hljs"><code><div>php artisan config:clear
+php artisan cache:clear
+<span class="hljs-comment"># Borra cookies del navegador</span>
+<span class="hljs-comment"># Reinicia php artisan serve</span>
+</div></code></pre>
+<h3 id="%C2%BFlas-vulnerabilidades-son-reales">¿Las vulnerabilidades son reales?</h3>
+<p>Sí, todas están basadas en vulnerabilidades reales documentadas por OWASP. Son intencionalmente inseguras para fines educativos.</p>
+<h3 id="%C2%BFpuedo-usar-este-proyecto-como-referencia">¿Puedo usar este proyecto como referencia?</h3>
+<p>Sí, pero <strong>solo</strong> como ejemplo de qué NO hacer. Úsalo para aprender a identificar y corregir vulnerabilidades.</p>
+<h3 id="%C2%BFd%C3%B3nde-puedo-aprender-m%C3%A1s">¿Dónde puedo aprender más?</h3>
+<ul>
+<li><a href="https://owasp.org/www-project-web-security-testing-guide/">OWASP Academy</a></li>
+<li><a href="https://portswigger.net/web-security">PortSwigger Web Security Academy</a></li>
+<li><a href="https://www.hackthebox.com/">HackTheBox</a></li>
+</ul>
+<hr>
+<p>¿Preguntas sobre el proyecto?</p>
+<ul>
+<li><strong>GitHub Issues</strong>: <a href="https://github.com/AndrewMontero/Proyecto-Seguridad-TI/issues">Abrir issue</a></li>
+<li><strong>Repositorio</strong>: https://github.com/AndrewMontero/Proyecto-Seguridad-TI</li>
+</ul>
+<hr>
+<h2 id="objetivos-de-aprendizaje">Objetivos de Aprendizaje</h2>
+<p>Al completar este proyecto, habrás aprendido:</p>
+<p>✅ Identificar las 6 vulnerabilidades más críticas del OWASP Top 10<br>
+✅ Entender cómo los atacantes explotan cada vulnerabilidad<br>
+✅ Implementar código vulnerable de forma controlada<br>
+✅ Aplicar las soluciones correctas para mitigar riesgos<br>
+✅ Usar herramientas de testing de seguridad<br>
+✅ Documentar vulnerabilidades de forma clara</p>
+<hr>
+<h2 id="%F0%9F%93%9D-changelog">📝 Changelog</h2>
+<h3 id="v100-2025-01-31">v1.0.0 (2025-01-31)</h3>
+<ul>
+<li>✅ Implementación inicial de 6 vulnerabilidades OWASP Top 10</li>
+<li>✅ Sistema completo de gestión agrícola</li>
+<li>✅ Dashboard interactivo</li>
+<li>✅ Documentación completa</li>
+<li>✅ Datos de prueba (seeders)</li>
+</ul>
+<hr>
+<p><strong>💻 Desarrollado con propósitos educativos | 🔒 Aprende Seguridad de forma práctica</strong></p>
+<hr>
+
+</body>
+</html>

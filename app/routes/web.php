@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ParcelController;
+use App\Http\Controllers\LecturaController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -19,8 +20,24 @@ Route::get('/', function () {
 Route::get('/productos', [ProductoController::class, 'index']);
 Route::get('/productos/crear', [ProductoController::class, 'create']);
 Route::post('/productos/guardar', [ProductoController::class, 'store']);
+
+// Resource completo para parcels (incluye destroy)
 Route::resource('parcels', ParcelController::class);
-// Esto generará index, create, store, show, edit, update, destroy
+// Esto genera automáticamente: index, create, store, show, edit, update, destroy
+
+
+
+/*
+|--------------------------------------------------------------------------
+| RUTAS DE LECTURAS
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/lecturas', [LecturaController::class, 'index'])->name('lecturas.index');
+Route::get('/lecturas/crear', [LecturaController::class, 'create'])->name('lecturas.create');
+Route::post('/lecturas', [LecturaController::class, 'store'])->name('lecturas.store');
+Route::get('/lecturas/{id}', [LecturaController::class, 'show'])->name('lecturas.show');
+Route::delete('/lecturas/{id}', [LecturaController::class, 'destroy'])->name('lecturas.destroy');
 
 
 
@@ -84,7 +101,7 @@ Route::post('/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| VULNERABILIDAD A — SECURITY MISCONFIGURATION
+| VULNERABILIDAD A05 — SECURITY MISCONFIGURATION
 | Exposición del archivo .env si APP_DEBUG=true
 |--------------------------------------------------------------------------
 */
@@ -107,7 +124,7 @@ Route::get('/demo/leak-env', function (Request $request) {
 
 /*
 |--------------------------------------------------------------------------
-| VULNERABILIDAD B — SSRF (Server-Side Request Forgery)
+| VULNERABILIDAD A10 — SSRF (Server-Side Request Forgery)
 | Endpoint vulnerable: /fetch?url=<target>
 |--------------------------------------------------------------------------
 */
@@ -135,7 +152,7 @@ Route::get('/fetch', function (Request $r) {
 
 /*
 |--------------------------------------------------------------------------
-| VULNERABILIDAD C — BROKEN AUTHENTICATION
+| VULNERABILIDAD A07 — BROKEN AUTHENTICATION
 | Contraseña débil + token de reset predecible
 |--------------------------------------------------------------------------
 */
@@ -148,11 +165,12 @@ Route::post('/demo-login', function (Request $r) {
     $user = \App\Models\User::where('email', $email)->first();
     if ($user && $password === 'admin123') {
         Auth::login($user);
+        $r->session()->regenerate();
         return redirect('/dashboard')->with('success', 'Logged in (demo vulnerable).');
     }
 
     return back()->with('error', 'Invalid demo credentials');
-});
+})->name('demo-login');
 
 // DEMO RESET REQUEST: genera tokens de reset predecibles
 Route::post('/demo-reset-request', function (Request $r) {

@@ -12,7 +12,12 @@ class ProductoController extends Controller
     {
         // Vulnerable a SQLi (intencional para la demo)
         $busqueda = $request->input('buscar', '');
-        $productos = DB::select("SELECT * FROM productos WHERE nombre LIKE '%$busqueda%'");
+        
+        // Usar query en lugar de select para mantener la vulnerabilidad pero permitir conversión
+        $productos = DB::table('productos')
+            ->whereRaw("nombre LIKE '%$busqueda%'")
+            ->paginate(12); // Añade paginación
+        
         return view('productos.index', compact('productos', 'busqueda'));
     }
 
