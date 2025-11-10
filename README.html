@@ -372,7 +372,7 @@ code {
 <img src="https://img.shields.io/badge/MySQL-8.0-orange?style=flat&amp;logo=mysql" alt="MySQL">
 <img src="https://img.shields.io/badge/OWASP-Top 10 2021-purple?style=flat" alt="OWASP"></p>
 <hr>
-<h2 id="tabla-de-contenidos">Tabla de Contenidos</h2>
+<h2 id="%F0%9F%93%8B-tabla-de-contenidos">📋 Tabla de Contenidos</h2>
 <ol>
 <li><a href="#-descripci%C3%B3n-del-proyecto">Descripción del Proyecto</a></li>
 <li><a href="#-requisitos-del-sistema">Requisitos del Sistema</a></li>
@@ -383,18 +383,18 @@ code {
 <li><a href="#-cr%C3%A9ditos">Créditos</a></li>
 </ol>
 <hr>
-<h2 id="descripci%C3%B3n-del-proyecto">Descripción del Proyecto</h2>
+<h2 id="%F0%9F%93%96-descripci%C3%B3n-del-proyecto">📖 Descripción del Proyecto</h2>
 <p><strong>AgroSenso Lite</strong> es un sistema de gestión agrícola desarrollado en Laravel que permite:</p>
 <ul>
-<li>Dashboard con métricas agrícolas</li>
-<li>Gestión de parcelas (CRUD completo)</li>
-<li>Catálogo de productos agrícolas</li>
-<li>Registro de lecturas de sensores (simuladas)</li>
-<li>Sistema de autenticación</li>
+<li>📊 Dashboard con métricas agrícolas</li>
+<li>🌱 Gestión de parcelas (CRUD completo)</li>
+<li>📦 Catálogo de productos agrícolas</li>
+<li>📡 Registro de lecturas de sensores (simuladas)</li>
+<li>🔐 Sistema de autenticación</li>
 </ul>
 <p>Este proyecto fue creado con <strong>propósitos educativos</strong> para demostrar las <strong>6 vulnerabilidades más críticas</strong> del OWASP Top 10 2021 en una aplicación web real.</p>
 <hr>
-<h2 id="requisitos-del-sistema">Requisitos del Sistema</h2>
+<h2 id="%F0%9F%94%A7-requisitos-del-sistema">🔧 Requisitos del Sistema</h2>
 <p>Antes de instalar, asegúrate de tener:</p>
 <ul>
 <li><strong>PHP</strong> &gt;= 8.2</li>
@@ -409,7 +409,7 @@ composer --version
 mysql --version
 </div></code></pre>
 <hr>
-<h2 id="instalaci%C3%B3n">Instalación</h2>
+<h2 id="%E2%9A%99%EF%B8%8F-instalaci%C3%B3n">⚙️ Instalación</h2>
 <h3 id="1%EF%B8%8F%E2%83%A3-clonar-el-repositorio">1️⃣ Clonar el repositorio</h3>
 <pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/AndrewMontero/Proyecto-Seguridad-TI.git
 <span class="hljs-built_in">cd</span> Proyecto-Seguridad-TI
@@ -465,7 +465,7 @@ EXIT;
 </div></code></pre>
 <p>Accede a: <strong>http://127.0.0.1:8000</strong></p>
 <hr>
-<h2 id="credenciales-de-acceso">Credenciales de Acceso</h2>
+<h2 id="%F0%9F%94%91-credenciales-de-acceso">🔑 Credenciales de Acceso</h2>
 <h3 id="usuarios-de-prueba">Usuarios de prueba:</h3>
 <table>
 <thead>
@@ -494,43 +494,59 @@ EXIT;
 </tbody>
 </table>
 <hr>
-<h2 id="vulnerabilidades-implementadas">Vulnerabilidades Implementadas</h2>
+<h2 id="%F0%9F%94%93-vulnerabilidades-implementadas">🔓 Vulnerabilidades Implementadas</h2>
 <p>Este proyecto incluye <strong>6 vulnerabilidades críticas</strong> del OWASP Top 10 2021:</p>
 <hr>
-<h3 id="1-sql-injection-sqli---a032021">1.  <strong>SQL Injection (SQLi)</strong> - A03:2021</h3>
-<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ProductoController.php</code> - Línea 15</p>
+<h3 id="1-%F0%9F%94%B4-broken-access-control-idor---a012021">1. 🔴 <strong>Broken Access Control (IDOR)</strong> - A01:2021</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ParcelController.php</code> - Líneas 26 y 39</p>
 <p><strong>Descripción:</strong><br>
-La búsqueda de productos concatena directamente la entrada del usuario en la consulta SQL sin usar parámetros preparados.</p>
+Los métodos <code>edit()</code> y <code>update()</code> NO verifican que el usuario sea el propietario de la parcela antes de permitir acceso.</p>
 <p><strong>Código vulnerable:</strong></p>
-<pre class="hljs"><code><div>$busqueda = $request-&gt;input(<span class="hljs-string">'buscar'</span>, <span class="hljs-string">''</span>);
-$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE '%$busqueda%'"</span>);
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    <span class="hljs-comment">// ❌ VULNERABLE: NO verifica ownership</span>
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    <span class="hljs-comment">// ❌ VULNERABLE: NO hay verificación de propietario ni autorización</span>
+    $parcel-&gt;name = $request-&gt;input(<span class="hljs-string">'name'</span>);
+    <span class="hljs-comment">// ... actualiza sin verificar</span>
+}
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>⚠️ Acceso no autorizado a toda la base de datos</li>
-<li>⚠️ Extracción de información sensible</li>
-<li>⚠️ Modificación o eliminación de datos</li>
-<li>⚠️ En casos extremos: compromiso total del servidor</li>
+<li>🚨 Un usuario puede editar parcelas de otros usuarios</li>
+<li>🚨 Acceso no autorizado a información privada</li>
+<li>🚨 Modificación o eliminación de datos ajenos</li>
+<li>🚨 Violación de la privacidad</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
 <ol>
-<li>Ve a <code>/productos</code></li>
-<li>En el campo de búsqueda, ingresa: <code>' OR '1'='1</code></li>
-<li>Resultado: Muestra todos los productos sin filtro</li>
+<li>Inicia sesión como <code>josue@gmail.com</code></li>
+<li>Crea o identifica una parcela (ej: ID=1)</li>
+<li>Cierra sesión e inicia con <code>maria@gmail.com</code></li>
+<li>Cambia la URL manualmente a: <code>/parcels/1/edit</code></li>
+<li>¡Puedes editar la parcela de Josue sin ser el dueño!</li>
 </ol>
-<p><strong>Payload de prueba:</strong></p>
-<pre class="hljs"><code><div>' OR '1'='1
-' UNION <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span><span class="hljs-comment">--</span>
-<span class="hljs-string">'; DROP TABLE productos; --
-</span></div></code></pre>
 <p><strong>Solución correcta:</strong></p>
-<pre class="hljs"><code><div><span class="hljs-comment">// Usar parámetros preparados</span>
-$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE ?"</span>, [<span class="hljs-string">"%$busqueda%"</span>]);
-<span class="hljs-comment">// O mejor aún, usar Eloquent:</span>
-$productos = Producto::where(<span class="hljs-string">'nombre'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$busqueda%"</span>)-&gt;get();
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
+</span>{
+    $parcel = Parcel::findOrFail($id);
+    
+    <span class="hljs-comment">// ✅ Verificar propiedad</span>
+    <span class="hljs-keyword">if</span> ($parcel-&gt;user_id !== Auth::id()) {
+        abort(<span class="hljs-number">403</span>, <span class="hljs-string">'No autorizado'</span>);
+    }
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
+}
 </div></code></pre>
 <hr>
-<h3 id="2-cross-site-scripting-xss---a032021">2.  <strong>Cross-Site Scripting (XSS)</strong> - A03:2021</h3>
+<h3 id="2-%F0%9F%94%B4-cross-site-scripting-xss---a032021">2. 🔴 <strong>Cross-Site Scripting (XSS)</strong> - A03:2021</h3>
 <p><strong>Ubicación:</strong> <code>app/Http/Controllers/ProductoController.php</code> - Línea 28</p>
 <p><strong>Descripción:</strong><br>
 Los datos ingresados no se validan ni sanitizan antes de almacenarse, y se renderizan sin escapar en las vistas.</p>
@@ -541,14 +557,14 @@ Los datos ingresados no se validan ni sanitizan antes de almacenarse, y se rende
 );
 </div></code></pre>
 <p>Vista vulnerable en <code>resources/views/productos/index.blade.php</code>:</p>
-<pre class="hljs"><code><div>{!! $producto-&gt;descripcion !!}  &lt;!--  NO escapa HTML --&gt;
+<pre class="hljs"><code><div>{!! $producto-&gt;descripcion !!}  &lt;!-- ❌ NO escapa HTML --&gt;
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>Robo de cookies y sesiones</li>
-<li>Redireccionamiento a sitios maliciosos</li>
-<li>Modificación del contenido de la página</li>
-<li>Captura de credenciales (keylogging)</li>
+<li>🚨 Robo de cookies y sesiones</li>
+<li>🚨 Redireccionamiento a sitios maliciosos</li>
+<li>🚨 Modificación del contenido de la página</li>
+<li>🚨 Captura de credenciales (keylogging)</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
 <ol>
@@ -572,64 +588,82 @@ Los datos ingresados no se validan ni sanitizan antes de almacenarse, y se rende
 {{ $producto-&gt;descripcion }}  &lt;!-- ✅ Escapa automáticamente --&gt;
 </div></code></pre>
 <hr>
-<h3 id="3-broken-access-control-idor---a012021">3.  <strong>Broken Access Control (IDOR)</strong> - A01:2021</h3>
-<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ParcelController.php</code> - Líneas 26 y 39</p>
+<h3 id="3-%F0%9F%94%B4-security-misconfiguration---a052021">3. 🔴 <strong>Security Misconfiguration</strong> - A05:2021</h3>
+<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 111-126 y archivo <code>.env</code></p>
 <p><strong>Descripción:</strong><br>
-Los métodos <code>edit()</code> y <code>update()</code> NO verifican que el usuario sea el propietario de la parcela antes de permitir acceso.</p>
+Múltiples configuraciones inseguras:</p>
+<ul>
+<li>❌ <code>APP_DEBUG=true</code> en &quot;producción&quot;</li>
+<li>❌ Endpoint <code>/demo/leak-env</code> expone el archivo <code>.env</code></li>
+<li>❌ Stack traces detallados revelan estructura del sistema</li>
+<li>❌ Sin cabeceras de seguridad HTTP</li>
+</ul>
 <p><strong>Código vulnerable:</strong></p>
-<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
-</span>{
-    $parcel = Parcel::findOrFail($id);
-    <span class="hljs-comment">//  VULNERABLE: NO verifica ownership</span>
-    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
-}
-
-<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
-</span>{
-    $parcel = Parcel::findOrFail($id);
-    <span class="hljs-comment">//  VULNERABLE: NO hay verificación de propietario ni autorización</span>
-    $parcel-&gt;name = $request-&gt;input(<span class="hljs-string">'name'</span>);
-    <span class="hljs-comment">// ... actualiza sin verificar</span>
-}
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/demo/leak-env'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $request)</span> </span>{
+    <span class="hljs-comment">// ❌ Expone archivo .env si APP_DEBUG=true</span>
+    <span class="hljs-keyword">if</span> (config(<span class="hljs-string">'app.debug'</span>) !== <span class="hljs-keyword">true</span>) {
+        abort(<span class="hljs-number">404</span>);
+    }
+    
+    $envPath = base_path(<span class="hljs-string">'.env'</span>);
+    $content = file_get_contents($envPath);
+    <span class="hljs-keyword">return</span> response($content, <span class="hljs-number">200</span>);
+});
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>Un usuario puede editar parcelas de otros usuarios</li>
-<li>Acceso no autorizado a información privada</li>
-<li>Modificación o eliminación de datos ajenos</li>
-<li>Violación de la privacidad</li>
+<li>🚨 Exposición de credenciales (DB, API keys)</li>
+<li>🚨 Revelación de estructura del sistema</li>
+<li>🚨 Información sobre versiones de software</li>
+<li>🚨 Facilita otros ataques</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
-<ol>
-<li>Inicia sesión como <code>josue@gmail.com</code></li>
-<li>Crea o identifica una parcela (ej: ID=1)</li>
-<li>Cierra sesión e inicia con <code>maria@gmail.com</code></li>
-<li>Cambia la URL manualmente a: <code>/parcels/1/edit</code></li>
-<li>¡Puedes editar la parcela de Josue sin ser el dueño!</li>
-</ol>
+<p><strong>Ataque 1: Leer .env</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/demo/leak-env
+</div></code></pre>
+<p>Resultado: Expone credenciales de base de datos, API keys, etc.</p>
+<p><strong>Ataque 2: Forzar error para ver stack trace</strong></p>
+<pre class="hljs"><code><div>http://127.0.0.1:8000/parcels/999999999
+</div></code></pre>
+<p>Resultado: Stack trace completo con:</p>
+<ul>
+<li>Rutas absolutas del servidor</li>
+<li>Versiones de Laravel, PHP, MySQL</li>
+<li>Queries SQL ejecutadas</li>
+<li>Estructura de tablas</li>
+</ul>
+<p><strong>Ataque 3: Detectar tecnologías</strong></p>
+<pre class="hljs"><code><div>curl -I http://127.0.0.1:8000
+<span class="hljs-comment"># Headers revelan:</span>
+<span class="hljs-comment"># X-Powered-By: PHP/8.2</span>
+<span class="hljs-comment"># Server: Apache/2.4.52</span>
+</div></code></pre>
 <p><strong>Solución correcta:</strong></p>
-<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">($id)</span>
-</span>{
-    $parcel = Parcel::findOrFail($id);
-    
-    <span class="hljs-comment">//  Verificar propiedad</span>
-    <span class="hljs-keyword">if</span> ($parcel-&gt;user_id !== Auth::id()) {
-        abort(<span class="hljs-number">403</span>, <span class="hljs-string">'No autorizado'</span>);
-    }
-    
-    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'parcels.edit'</span>, compact(<span class="hljs-string">'parcel'</span>));
-}
+<pre class="hljs"><code><div># En producción
+APP_DEBUG=false
+APP_ENV=production
+
+# Eliminar endpoints de debug
+# - /demo/leak-env
+# - /phpinfo
+# - /debug
+
+# Agregar cabeceras de seguridad
+# En middleware:
+$response-&gt;headers-&gt;set('X-Frame-Options', 'SAMEORIGIN');
+$response-&gt;headers-&gt;set('X-Content-Type-Options', 'nosniff');
+$response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 </div></code></pre>
 <hr>
-<h3 id="4-broken-authentication---a072021">4.  <strong>Broken Authentication</strong> - A07:2021</h3>
+<h3 id="4-%F0%9F%94%B4-broken-authentication---a072021">4. 🔴 <strong>Broken Authentication</strong> - A07:2021</h3>
 <p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 158-170</p>
 <p><strong>Descripción:</strong><br>
 El sistema de autenticación permite:</p>
 <ul>
-<li>✗ Contraseñas débiles sin requisitos de complejidad</li>
-<li>✗ Tokens de reset predecibles</li>
-<li>✗ Sin límite de intentos de login (fuerza bruta)</li>
-<li>✗ Mensajes que revelan si un usuario existe</li>
+<li>❌ Contraseñas débiles sin requisitos de complejidad</li>
+<li>❌ Tokens de reset predecibles</li>
+<li>❌ Sin límite de intentos de login (fuerza bruta)</li>
+<li>❌ Mensajes que revelan si un usuario existe</li>
 </ul>
 <p><strong>Código vulnerable:</strong></p>
 <pre class="hljs"><code><div>Route::post(<span class="hljs-string">'/demo-login'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $r)</span> </span>{
@@ -638,7 +672,7 @@ El sistema de autenticación permite:</p>
 
     $user = \App\Models\User::where(<span class="hljs-string">'email'</span>, $email)-&gt;first();
     
-    <span class="hljs-comment">//  Acepta contraseña débil "admin123" para cualquier usuario</span>
+    <span class="hljs-comment">// ❌ Acepta contraseña débil "admin123" para cualquier usuario</span>
     <span class="hljs-keyword">if</span> ($user &amp;&amp; $password === <span class="hljs-string">'admin123'</span>) {
         Auth::login($user);
         <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">'/dashboard'</span>);
@@ -649,10 +683,10 @@ El sistema de autenticación permite:</p>
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>Ataques de fuerza bruta sin restricción</li>
-<li>Enumeración de usuarios válidos</li>
-<li>Adivinación de tokens de reset</li>
-<li>Cuentas vulnerables a takeover</li>
+<li>🚨 Ataques de fuerza bruta sin restricción</li>
+<li>🚨 Enumeración de usuarios válidos</li>
+<li>🚨 Adivinación de tokens de reset</li>
+<li>🚨 Cuentas vulnerables a takeover</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
 <p><strong>Ataque 1: Contraseña débil universal</strong></p>
@@ -686,68 +720,16 @@ RateLimiter::hit(<span class="hljs-string">'login:'</span> . $request-&gt;ip(), 
 <span class="hljs-keyword">return</span> back()-&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Credenciales incorrectas'</span>);
 </div></code></pre>
 <hr>
-<h3 id="5-server-side-request-forgery-ssrf---a102021">5.  <strong>Server-Side Request Forgery (SSRF)</strong> - A10:2021</h3>
-<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 130-145</p>
-<p><strong>Descripción:</strong><br>
-Endpoint <code>/fetch?url=</code> que permite hacer peticiones HTTP a cualquier URL sin validación.</p>
-<p><strong>Código vulnerable:</strong></p>
-<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/fetch'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $r)</span> </span>{
-    $url = $r-&gt;query(<span class="hljs-string">'url'</span>, <span class="hljs-string">''</span>);
-    
-    <span class="hljs-comment">//  VULNERABLE: sin validación ni lista blanca</span>
-    $content = @file_get_contents($url, <span class="hljs-keyword">false</span>, $context);
-    <span class="hljs-keyword">return</span> response($content, <span class="hljs-number">200</span>);
-});
-</div></code></pre>
-<p><strong>Impacto:</strong></p>
-<ul>
-<li>Escaneo de red interna</li>
-<li>Acceso a servicios internos (AWS metadata, Redis, etc.)</li>
-<li>Bypass de firewalls</li>
-<li>Robo de información sensible</li>
-<li>Lectura de archivos locales del servidor</li>
-</ul>
-<p><strong>Cómo explotarlo:</strong></p>
-<p><strong>Ataque 1: Leer archivos locales</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=file:///etc/passwd
-</div></code></pre>
-<p><strong>Ataque 2: AWS Metadata (en servidores cloud)</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://169.254.169.254/latest/meta-data/
-</div></code></pre>
-<p><strong>Ataque 3: Escaneo de red interna</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://192.168.1.1:8080
-http://127.0.0.1:8000/fetch?url=http://localhost:3306
-</div></code></pre>
-<p><strong>Ataque 4: Acceder a servicios internos</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/fetch?url=http://localhost:6379  # Redis
-http://127.0.0.1:8000/fetch?url=http://localhost:9200  # Elasticsearch
-</div></code></pre>
-<p><strong>Solución correcta:</strong></p>
-<pre class="hljs"><code><div><span class="hljs-comment">// Whitelist de dominios permitidos</span>
-$allowed_domains = [<span class="hljs-string">'api.example.com'</span>, <span class="hljs-string">'cdn.example.com'</span>];
-$host = parse_url($url, PHP_URL_HOST);
-
-<span class="hljs-keyword">if</span> (!in_array($host, $allowed_domains)) {
-    abort(<span class="hljs-number">403</span>, <span class="hljs-string">'Domain not allowed'</span>);
-}
-
-<span class="hljs-comment">// Validar protocolo</span>
-$scheme = parse_url($url, PHP_URL_SCHEME);
-<span class="hljs-keyword">if</span> (!in_array($scheme, [<span class="hljs-string">'http'</span>, <span class="hljs-string">'https'</span>])) {
-    abort(<span class="hljs-number">403</span>, <span class="hljs-string">'Invalid protocol'</span>);
-}
-</div></code></pre>
-<hr>
-<h3 id="6-security-logging-and-monitoring-failures---a092021-nueva">6.  <strong>Security Logging and Monitoring Failures</strong> - A09:2021  NUEVA</h3>
+<h3 id="5-%F0%9F%94%B4-security-logging-and-monitoring-failures---a092021">5. 🔴 <strong>Security Logging and Monitoring Failures</strong> - A09:2021</h3>
 <p><strong>Ubicación:</strong> <code>app/Http/Controllers/ParcelController.php</code> - Líneas 40, 60, 72</p>
 <p><strong>Descripción:</strong><br>
 El sistema NO registra eventos críticos de seguridad:</p>
 <ul>
-<li>✗ No registra quién accede a qué parcelas</li>
-<li>✗ No registra modificaciones (valores anteriores vs nuevos)</li>
-<li>✗ No registra eliminaciones de datos</li>
-<li>✗ No hay timestamps ni IP del usuario</li>
-<li>✗ Sin alertas de actividad sospechosa</li>
+<li>❌ No registra quién accede a qué parcelas</li>
+<li>❌ No registra modificaciones (valores anteriores vs nuevos)</li>
+<li>❌ No registra eliminaciones de datos</li>
+<li>❌ No hay timestamps ni IP del usuario</li>
+<li>❌ Sin alertas de actividad sospechosa</li>
 </ul>
 <p><strong>Código vulnerable:</strong></p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
@@ -758,7 +740,7 @@ El sistema NO registra eventos críticos de seguridad:</p>
     $parcel-&gt;name = $request-&gt;input(<span class="hljs-string">'name'</span>);
     $parcel-&gt;save();
     
-    <span class="hljs-comment">//  VULNERABLE: NO hay log de auditoría</span>
+    <span class="hljs-comment">// ❌ VULNERABLE: NO hay log de auditoría</span>
     <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'parcels.index'</span>);
 }
 
@@ -767,19 +749,19 @@ El sistema NO registra eventos críticos de seguridad:</p>
     $parcel = Parcel::findOrFail($id);
     $parcel-&gt;delete();
     
-    <span class="hljs-comment">//  VULNERABLE: Eliminación sin rastro</span>
+    <span class="hljs-comment">// ❌ VULNERABLE: Eliminación sin rastro</span>
     <span class="hljs-comment">// No hay forma de saber quién lo eliminó ni recuperar los datos</span>
     <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'parcels.index'</span>);
 }
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>Atacantes actúan sin ser detectados</li>
-<li>Imposible rastrear cambios maliciosos</li>
-<li>No se pueden recuperar datos eliminados</li>
-<li>Sin evidencia para investigaciones forenses</li>
-<li>Incumplimiento de regulaciones (GDPR, SOC2)</li>
-<li>Brechas de seguridad se descubren tarde</li>
+<li>🚨 Atacantes actúan sin ser detectados</li>
+<li>🚨 Imposible rastrear cambios maliciosos</li>
+<li>🚨 No se pueden recuperar datos eliminados</li>
+<li>🚨 Sin evidencia para investigaciones forenses</li>
+<li>🚨 Incumplimiento de regulaciones (GDPR, SOC2)</li>
+<li>🚨 Brechas de seguridad se descubren tarde</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
 <p><strong>Escenario de ataque:</strong></p>
@@ -791,7 +773,7 @@ El sistema NO registra eventos críticos de seguridad:</p>
 <li>Login como <code>maria@gmail.com</code> → password: <code>admin123</code></li>
 <li>Ir a <code>/parcels/5/edit</code> (IDOR - A01)</li>
 <li>Cambiar nombre a &quot;Parcela Hackeada&quot; o eliminarla</li>
-<li><strong>Resultado:</strong> ✗ No hay registro de quién lo hizo, cuándo, ni valores anteriores</li>
+<li><strong>Resultado:</strong> ❌ No hay registro de quién lo hizo, cuándo, ni valores anteriores</li>
 </ol>
 <p><strong>Verificar falta de logs:</strong></p>
 <pre class="hljs"><code><div>php artisan tinker
@@ -885,80 +867,46 @@ $suspiciousDeletes = AuditLog::where(<span class="hljs-string">'created_at'</spa
 }
 </div></code></pre>
 <hr>
-<h3 id="7-security-misconfiguration---a052021">7.  <strong>Security Misconfiguration</strong> - A05:2021</h3>
-<p><strong>Ubicación:</strong> <code>routes/web.php</code> - Líneas 111-126 y archivo <code>.env</code></p>
+<h3 id="6-%F0%9F%94%B4-sql-injection-sqli---a032021">6. 🔴 <strong>SQL Injection (SQLi)</strong> - A03:2021</h3>
+<p><strong>Ubicación:</strong> <code>app/Http/Controllers/ProductoController.php</code> - Línea 15</p>
 <p><strong>Descripción:</strong><br>
-Múltiples configuraciones inseguras:</p>
-<ul>
-<li>✗ <code>APP_DEBUG=true</code> en &quot;producción&quot;</li>
-<li>✗ Endpoint <code>/demo/leak-env</code> expone el archivo <code>.env</code></li>
-<li>✗ Stack traces detallados revelan estructura del sistema</li>
-<li>✗ Sin cabeceras de seguridad HTTP</li>
-</ul>
+La búsqueda de productos concatena directamente la entrada del usuario en la consulta SQL sin usar parámetros preparados.</p>
 <p><strong>Código vulnerable:</strong></p>
-<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/demo/leak-env'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Request $request)</span> </span>{
-    <span class="hljs-comment">//  Expone archivo .env si APP_DEBUG=true</span>
-    <span class="hljs-keyword">if</span> (config(<span class="hljs-string">'app.debug'</span>) !== <span class="hljs-keyword">true</span>) {
-        abort(<span class="hljs-number">404</span>);
-    }
-    
-    $envPath = base_path(<span class="hljs-string">'.env'</span>);
-    $content = file_get_contents($envPath);
-    <span class="hljs-keyword">return</span> response($content, <span class="hljs-number">200</span>);
-});
+<pre class="hljs"><code><div>$busqueda = $request-&gt;input(<span class="hljs-string">'buscar'</span>, <span class="hljs-string">''</span>);
+$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE '%$busqueda%'"</span>);
 </div></code></pre>
 <p><strong>Impacto:</strong></p>
 <ul>
-<li>Exposición de credenciales (DB, API keys)</li>
-<li>Revelación de estructura del sistema</li>
-<li>Información sobre versiones de software</li>
-<li>Facilita otros ataques</li>
+<li>⚠️ Acceso no autorizado a toda la base de datos</li>
+<li>⚠️ Extracción de información sensible</li>
+<li>⚠️ Modificación o eliminación de datos</li>
+<li>⚠️ En casos extremos: compromiso total del servidor</li>
 </ul>
 <p><strong>Cómo explotarlo:</strong></p>
-<p><strong>Ataque 1: Leer .env</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/demo/leak-env
-</div></code></pre>
-<p>Resultado: Expone credenciales de base de datos, API keys, etc.</p>
-<p><strong>Ataque 2: Forzar error para ver stack trace</strong></p>
-<pre class="hljs"><code><div>http://127.0.0.1:8000/parcels/999999999
-</div></code></pre>
-<p>Resultado: Stack trace completo con:</p>
-<ul>
-<li>Rutas absolutas del servidor</li>
-<li>Versiones de Laravel, PHP, MySQL</li>
-<li>Queries SQL ejecutadas</li>
-<li>Estructura de tablas</li>
-</ul>
-<p><strong>Ataque 3: Detectar tecnologías</strong></p>
-<pre class="hljs"><code><div>curl -I http://127.0.0.1:8000
-<span class="hljs-comment"># Headers revelan:</span>
-<span class="hljs-comment"># X-Powered-By: PHP/8.2</span>
-<span class="hljs-comment"># Server: Apache/2.4.52</span>
-</div></code></pre>
+<ol>
+<li>Ve a <code>/productos</code></li>
+<li>En el campo de búsqueda, ingresa: <code>' OR '1'='1</code></li>
+<li>Resultado: Muestra todos los productos sin filtro</li>
+</ol>
+<p><strong>Payload de prueba:</strong></p>
+<pre class="hljs"><code><div>' OR '1'='1
+' UNION <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span><span class="hljs-comment">--</span>
+<span class="hljs-string">'; DROP TABLE productos; --
+</span></div></code></pre>
 <p><strong>Solución correcta:</strong></p>
-<pre class="hljs"><code><div># En producción
-APP_DEBUG=false
-APP_ENV=production
-
-# Eliminar endpoints de debug
-# - /demo/leak-env
-# - /phpinfo
-# - /debug
-
-# Agregar cabeceras de seguridad
-# En middleware:
-$response-&gt;headers-&gt;set('X-Frame-Options', 'SAMEORIGIN');
-$response-&gt;headers-&gt;set('X-Content-Type-Options', 'nosniff');
-$response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
+<pre class="hljs"><code><div><span class="hljs-comment">// Usar parámetros preparados</span>
+$productos = DB::select(<span class="hljs-string">"SELECT * FROM productos WHERE nombre LIKE ?"</span>, [<span class="hljs-string">"%$busqueda%"</span>]);
+<span class="hljs-comment">// O mejor aún, usar Eloquent:</span>
+$productos = Producto::where(<span class="hljs-string">'nombre'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$busqueda%"</span>)-&gt;get();
 </div></code></pre>
 <hr>
-<h2 id="estructura-del-proyecto">Estructura del Proyecto</h2>
+<h2 id="%F0%9F%93%81-estructura-del-proyecto">📁 Estructura del Proyecto</h2>
 <pre class="hljs"><code><div>Proyecto-Seguridad-TI/
 ├── app/
 │   ├── Http/
 │   │   └── Controllers/
-│   │       ├── ParcelController.php      #  IDOR + A09 Logging Failure
-│   │       ├── ProductoController.php    #  SQLi + XSS vulnerable
+│   │       ├── ParcelController.php      # 🔴 IDOR + A09 Logging Failure
+│   │       ├── ProductoController.php    # 🔴 SQLi + XSS vulnerable
 │   │       └── PruebaController.php
 │   └── Models/
 │       ├── Parcel.php
@@ -975,20 +923,20 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 │       ├── layouts/
 │       │   └── app.blade.php             # Layout principal
 │       ├── demo/
-│       │   ├── login.blade.php           #  Auth débil
+│       │   ├── login.blade.php           # 🔴 Auth débil
 │       │   └── register.blade.php
 │       ├── parcels/
 │       │   ├── index.blade.php           # Con botón eliminar (A09)
 │       │   ├── create.blade.php
-│       │   ├── edit.blade.php            #  IDOR
+│       │   ├── edit.blade.php            # 🔴 IDOR
 │       │   └── show.blade.php
 │       ├── productos/
-│       │   ├── index.blade.php           #  XSS
+│       │   ├── index.blade.php           # 🔴 XSS
 │       │   └── create.blade.php
 │       └── dashboard.blade.php
 ├── routes/
-│   └── web.php                           #  Todas las rutas vulnerables
-├── .env                                  #  Misconfig
+│   └── web.php                           # 🔴 Todas las rutas vulnerables
+├── .env                                  # 🔴 Misconfig
 └── README.md
 </div></code></pre>
 <hr>
@@ -1044,11 +992,6 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <td>A03 - XSS</td>
 </tr>
 <tr>
-<td><code>/fetch?url=</code></td>
-<td>Endpoint SSRF</td>
-<td>A10 - SSRF</td>
-</tr>
-<tr>
 <td><code>/demo/leak-env</code></td>
 <td>Expone .env</td>
 <td>A05 - Misconfig</td>
@@ -1098,13 +1041,7 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <span class="hljs-comment"># body: email=test@test.com</span>
 <span class="hljs-comment"># Resultado: Muestra token predecible basado en md5(email+time)</span>
 </div></code></pre>
-<h4 id="5-ssrf-a10">5. SSRF (A10)</h4>
-<pre class="hljs"><code><div><span class="hljs-comment"># 1. Accede a: /fetch?url=http://example.com</span>
-<span class="hljs-comment"># 2. Prueba: /fetch?url=file:///etc/passwd</span>
-<span class="hljs-comment"># 3. Prueba: /fetch?url=http://localhost:3306</span>
-<span class="hljs-comment"># Resultado: Puede hacer requests a cualquier URL</span>
-</div></code></pre>
-<h4 id="6-security-logging-failure-a09">6. Security Logging Failure (A09)</h4>
+<h4 id="5-security-logging-failure-a09">5. Security Logging Failure (A09)</h4>
 <pre class="hljs"><code><div><span class="hljs-comment"># 1. Login como josue@gmail.com / admin123</span>
 <span class="hljs-comment"># 2. Crear parcela "Parcela Importante"</span>
 <span class="hljs-comment"># 3. Logout, login como maria@gmail.com / admin123</span>
@@ -1115,7 +1052,7 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <span class="hljs-comment">#    &gt;&gt;&gt; // null - sin forma de recuperar</span>
 <span class="hljs-comment">#    &gt;&gt;&gt; // Sin logs de quién la eliminó</span>
 </div></code></pre>
-<h4 id="7-security-misconfiguration-a05">7. Security Misconfiguration (A05)</h4>
+<h4 id="6-security-misconfiguration-a05">6. Security Misconfiguration (A05)</h4>
 <pre class="hljs"><code><div><span class="hljs-comment"># Con APP_DEBUG=true:</span>
 <span class="hljs-comment"># 1. Accede a: /demo/leak-env</span>
 <span class="hljs-comment"># Resultado: Muestra todo el contenido del archivo .env</span>
@@ -1124,15 +1061,15 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <span class="hljs-comment"># Resultado: Stack trace completo con rutas, queries, versiones</span>
 </div></code></pre>
 <hr>
-<h2 id="advertencias">Advertencias</h2>
+<h2 id="%E2%9A%A0%EF%B8%8F-advertencias">⚠️ Advertencias</h2>
 <ul>
-<li><strong>ESTE PROYECTO ES SOLO PARA FINES EDUCATIVOS</strong></li>
-<li><strong>NO USAR EN PRODUCCIÓN</strong></li>
-<li><strong>NO DESPLEGAR EN SERVIDORES PÚBLICOS</strong></li>
-<li>Las vulnerabilidades son intencionales para demostración académica</li>
+<li>⚠️ <strong>ESTE PROYECTO ES SOLO PARA FINES EDUCATIVOS</strong></li>
+<li>⚠️ <strong>NO USAR EN PRODUCCIÓN</strong></li>
+<li>⚠️ <strong>NO DESPLEGAR EN SERVIDORES PÚBLICOS</strong></li>
+<li>⚠️ Las vulnerabilidades son intencionales para demostración académica</li>
 </ul>
 <hr>
-<h2 id="recursos-adicionales">Recursos Adicionales</h2>
+<h2 id="%F0%9F%93%9A-recursos-adicionales">📚 Recursos Adicionales</h2>
 <ul>
 <li><a href="https://owasp.org/Top10/">OWASP Top 10 2021</a></li>
 <li><a href="https://laravel.com/docs/11.x/security">Laravel Security Best Practices</a></li>
@@ -1141,7 +1078,7 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">XSS Prevention</a></li>
 </ul>
 <hr>
-<h2 id="resumen-de-vulnerabilidades">Resumen de Vulnerabilidades</h2>
+<h2 id="%F0%9F%93%8A-resumen-de-vulnerabilidades">📊 Resumen de Vulnerabilidades</h2>
 <table>
 <thead>
 <tr>
@@ -1154,6 +1091,20 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 </thead>
 <tbody>
 <tr>
+<td>A03:2021</td>
+<td>Injection (SQLi)</td>
+<td>✅</td>
+<td>ProductoController.php</td>
+<td>Crítico</td>
+</tr>
+<tr>
+<td>A03:2021</td>
+<td>Injection (XSS)</td>
+<td>✅</td>
+<td>ProductoController.php</td>
+<td>Crítico</td>
+</tr>
+<tr>
 <td>A01:2021</td>
 <td>Broken Access Control</td>
 <td>✅</td>
@@ -1161,22 +1112,15 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <td>Alto</td>
 </tr>
 <tr>
-<td>A03:2021</td>
-<td>Injection (SQLi + XSS)</td>
-<td>✅</td>
-<td>ProductoController.php</td>
-<td>Crítico</td>
-</tr>
-<tr>
-<td>A05:2021</td>
-<td>Security Misconfiguration</td>
-<td>✅</td>
-<td>.env + routes/web.php</td>
-<td>Medio</td>
-</tr>
-<tr>
 <td>A07:2021</td>
 <td>Authentication Failures</td>
+<td>✅</td>
+<td>routes/web.php</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>A10:2021</td>
+<td>SSRF</td>
 <td>✅</td>
 <td>routes/web.php</td>
 <td>Alto</td>
@@ -1189,26 +1133,20 @@ $response-&gt;headers-&gt;set('X-XSS-Protection', '1; mode=block');
 <td>Medio</td>
 </tr>
 <tr>
-<td>A10:2021</td>
-<td>SSRF</td>
+<td>A05:2021</td>
+<td>Security Misconfiguration</td>
 <td>✅</td>
-<td>routes/web.php</td>
-<td>Alto</td>
+<td>.env + routes/web.php</td>
+<td>Medio</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Total: 6 vulnerabilidades críticas implementadas</strong></p>
+<p><strong>Total: 6 vulnerabilidades críticas implementadas (7 incluyendo Misconfig)</strong></p>
 <hr>
-<h2 id="herramientas-de-testing">Herramientas de Testing</h2>
+<h2 id="%F0%9F%9B%A0%EF%B8%8F-herramientas-de-testing">🛠️ Herramientas de Testing</h2>
 <h3 id="para-probar-las-vulnerabilidades">Para probar las vulnerabilidades:</h3>
 <pre class="hljs"><code><div><span class="hljs-comment"># SQL Injection</span>
 sqlmap -u <span class="hljs-string">"http://127.0.0.1:8000/productos?buscar=test"</span> --dbs
-
-<span class="hljs-comment"># SSRF</span>
-curl <span class="hljs-string">"http://127.0.0.1:8000/fetch?url=file:///etc/passwd"</span>
-
-<span class="hljs-comment"># XSS</span>
-<span class="hljs-comment"># Usar Burp Suite o ZAP Proxy</span>
 
 <span class="hljs-comment"># Auditoría de composer</span>
 composer audit
@@ -1217,7 +1155,7 @@ composer audit
 ./vendor/bin/phpstan analyse app
 </div></code></pre>
 <hr>
-<h2 id="cr%C3%A9ditos">Créditos</h2>
+<h2 id="%F0%9F%91%A5-cr%C3%A9ditos">👥 Créditos</h2>
 <p><strong>Proyecto:</strong> Seguridad en Tecnologías de la Información<br>
 <strong>Institución:</strong> Universidad Tecnica Nacional
 <strong>Año:</strong> 2025</p>
@@ -1233,11 +1171,11 @@ composer audit
 <li>Profesores y compañeros del curso de Seguridad TI</li>
 </ul>
 <hr>
-<h2 id="licencia">Licencia</h2>
+<h2 id="%F0%9F%93%84-licencia">📄 Licencia</h2>
 <p>Este proyecto es de uso educativo exclusivamente.</p>
 <p><strong>MIT License</strong> - Ver archivo <code>LICENSE</code> para más detalles.</p>
 <hr>
-<h2 id="contribuciones">Contribuciones</h2>
+<h2 id="%F0%9F%A4%9D-contribuciones">🤝 Contribuciones</h2>
 <p>Las contribuciones educativas son bienvenidas. Por favor:</p>
 <ol>
 <li>Fork el proyecto</li>
@@ -1254,7 +1192,7 @@ composer audit
 <li>Añade referencias a OWASP</li>
 </ul>
 <hr>
-<h2 id="faq-preguntas-frecuentes">FAQ (Preguntas Frecuentes)</h2>
+<h2 id="%E2%9D%93-faq-preguntas-frecuentes">❓ FAQ (Preguntas Frecuentes)</h2>
 <h3 id="%C2%BFes-seguro-ejecutar-este-proyecto">¿Es seguro ejecutar este proyecto?</h3>
 <p>Solo en entorno local para aprendizaje. <strong>NUNCA</strong> en producción o servidores públicos.</p>
 <h3 id="%C2%BFc%C3%B3mo-resuelvo-el-error-%22419-page-expired%22">¿Cómo resuelvo el error &quot;419 Page Expired&quot;?</h3>
@@ -1280,7 +1218,7 @@ php artisan cache:clear
 <li><strong>Repositorio</strong>: https://github.com/AndrewMontero/Proyecto-Seguridad-TI</li>
 </ul>
 <hr>
-<h2 id="objetivos-de-aprendizaje">Objetivos de Aprendizaje</h2>
+<h2 id="%F0%9F%8E%AF-objetivos-de-aprendizaje">🎯 Objetivos de Aprendizaje</h2>
 <p>Al completar este proyecto, habrás aprendido:</p>
 <p>✅ Identificar las 6 vulnerabilidades más críticas del OWASP Top 10<br>
 ✅ Entender cómo los atacantes explotan cada vulnerabilidad<br>
