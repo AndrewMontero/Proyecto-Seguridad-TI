@@ -79,4 +79,18 @@ class ParcelController extends Controller
 
         return redirect()->route('parcels.index')->with('success', 'Parcel created (demo).');
     }
+
+    /**
+     * Eliminar parcela.
+     *
+     * ⚠️ VULNERABLE: NO verifica ownership - cualquiera puede eliminar parcelas ajenas
+     */
+    public function destroy($id)
+    {
+        $parcel = Parcel::findOrFail($id); // no ownership check
+        $parcel->delete();
+
+        return redirect()->route('parcels.index')
+                         ->with('success', 'Parcela eliminada correctamente.');
+    }
 }
